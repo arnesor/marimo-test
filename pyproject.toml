@@ -6,4 +6,19 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "marimo[recommended]>=0.19.7",
+    "numpy>=2.4.2",
+    "plotly[express]>=6.5.2",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle
+    "F",   # Pyflakes
+    "UP",  # pyupgrade (modernizes code)
+    "I",   # isort (auto-sorts imports)
+    "B",   # flake8-bugbear
 ]
