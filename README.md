@@ -1,2 +1,2 @@
 # marimo-test
-Test of marimo notebboks
+Test of marimo notebooks.
