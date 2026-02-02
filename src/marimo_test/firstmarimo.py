@@ -18,7 +18,7 @@ def _():
 @app.cell
 def _(mo):
     mo.md("""
-    # 📊 Public Data Explorer (Polars Edition)
+    # 📊 FIFA 2021 player data
     """)
     return
 
@@ -46,10 +46,25 @@ def _(BytesIO, httpx, mo, pl):
 
 @app.cell
 def _(mo):
+    mo.md(r"""
+    ## Speed vs finishing accuracy
+
+    The graph shows:
+
+    **X-axis** *Sprint speed*: The maximum top speed a player can reach once they are fully into their stride.<br>
+    **Y-axis** *Finishing:* Measures a player's accuracy with shots inside the penalty area.<br>
+    **Point Size:** Determined by value (bigger circle = more expensive).<br>
+    **Point Color:** Determined by overall rating, OVA (Brighter/Different color = Higher current rating)<br>
+    """)
+    return
+
+
+@app.cell
+def _(mo):
     speed_slider = mo.ui.slider(0, 100, label="Min Sprint Speed", value=70)
     finishing_slider = mo.ui.slider(0, 100, label="Min Finishing", value=60)
 
-    # Display them so they appear in the UI
+    # Sliders for the graph below
     mo.hstack([speed_slider, finishing_slider])
     return finishing_slider, speed_slider
 
@@ -57,16 +72,14 @@ def _(mo):
 @app.cell
 def _(df, finishing_slider, mo, pl, px, speed_slider):
     def render_scouting_chart(data):
-        # Pure Polars filtering
         filtered_df = data.filter(
             (pl.col("Sprint Speed") >= speed_slider.value) & 
             (pl.col("Finishing") >= finishing_slider.value)
         )
-    
+
         if filtered_df.is_empty():
             return mo.md("### ⚠️ No players match these criteria.")
-    
-        # Plotly accepts Polars DataFrames directly
+
         fig = px.scatter(
             filtered_df,
             x="Sprint Speed",
@@ -76,11 +89,11 @@ def _(df, finishing_slider, mo, pl, px, speed_slider):
             hover_name="Name",
             # Including your requested columns in hover data
             hover_data=["Club", "Age", "POT", "BOV", "Wage"],
-            title="Scouting Pace vs. Finishing (Polars Powered)",
+            title="Sprint Speed vs. Finishing",
             template="plotly_dark",
             color_continuous_scale="Viridis"
         )
-    
+
         return mo.ui.plotly(fig)
 
     render_scouting_chart(df)
