@@ -18,14 +18,8 @@ def _():
 def _(mo):
     mo.md("""
     # 📊 FIFA 2021 player data
-    """)
-    return
 
-
-@app.cell
-def _(mo):
-    mo.md(r"""
- 
+    This is a test of visualizing a pandas dataframe with marimo.
     """)
     return
 
@@ -35,7 +29,10 @@ def _(mo, pd):
     def read_fifa_data() -> pd.DataFrame:
         # Assuming the CSV file is in the same directory as this script
         file = mo.notebook_location() / "cleaned_fifa21.csv"
-        return pd.read_csv(file)
+        df = pd.read_csv(file)
+        print(df.shape)
+        print(df.columns)
+        return df[["Name", "Nationality", "Age", "Club", "Total Stats"]]
 
     return (read_fifa_data,)
 
