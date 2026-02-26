@@ -28,7 +28,7 @@ def _(mo):
 def _(mo, pd):
     def read_fifa_data() -> pd.DataFrame:
         # Assuming the CSV file is in the same directory as this script
-        file = mo.notebook_location() / "cleaned_fifa21.csv"
+        file = mo.notebook_location() / "public" / "cleaned_fifa21.csv"
         df = pd.read_csv(file)
         print(df.shape)
         print(df.columns)
