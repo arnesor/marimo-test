@@ -32,15 +32,72 @@ def _(mo, pd):
         df = pd.read_csv(file)
         print(df.shape)
         print(df.columns)
-        return df[["Name", "Nationality", "Age", "Club", "Total Stats"]]
+        return df[
+            [
+                "Name",
+                "Nationality",
+                "Age",
+                "Club",
+                "↓OVA",
+                "POT",
+                "BOV",
+                "Total Stats",
+                "Base Stats",
+                "Value",
+                "Wage",
+                "Sprint Speed",
+                "Shot Power",
+                "Interceptions",
+                "Finishing",
+                "Defending",
+                "Hits",
+            ]
+        ]
 
-    return (read_fifa_data,)
+    return
 
 
 @app.cell
-def _(read_fifa_data):
+def _(mo, pd):
+    @mo.cache
+    def fetch_player_data():
+        # A cleaned version where 'Value' and 'Wage' are already converted to floats
+        url = "https://raw.githubusercontent.com/Dorianteffo/fifa21_datacleaning_python/main/cleaned_fifa21.csv"
+        print(f"Fetching data from {url}...")
+        # pd.read_csv() works with URLs in both regular Python and in Pyodide/WASM
+        df = pd.read_csv(url)
+        return df[
+            [
+                "Name",
+                "Nationality",
+                "Age",
+                "Club",
+                "↓OVA",
+                "POT",
+                "BOV",
+                "Total Stats",
+                "Base Stats",
+                "Value",
+                "Wage",
+                "Sprint Speed",
+                "Shot Power",
+                "Interceptions",
+                "Finishing",
+                "Defending",
+                "Hits",
+            ]
+        ]
+
+
+    return (fetch_player_data,)
+
+
+@app.cell
+def _(fetch_player_data):
     print("Reading FIFA data...")
-    df = read_fifa_data()
+    # df = read_fifa_data()
+    df = fetch_player_data()
+
     print("Fifa data loaded successfully.")
     df
     return
