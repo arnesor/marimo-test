@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.20.2"
+__generated_with = "0.20.4"
 app = marimo.App(width="medium")
 
 
@@ -77,18 +77,42 @@ def _(filter_fifa_data, mo, pd):
 
 
 @app.cell
+def _(mo):
+    economics_checkbox = mo.ui.checkbox(value=False, label="Economics")
+    abilities_checkbox = mo.ui.checkbox(value=False, label="Abilities")
+    mo.vstack([economics_checkbox, abilities_checkbox])
+    return abilities_checkbox, economics_checkbox
+
+
+@app.cell
 def _(read_fifa_data_from_file, read_fifa_data_from_web):
     print("Reading FIFA data...")
     df = read_fifa_data_from_web()
     df = read_fifa_data_from_file()
 
     print("Fifa data loaded successfully.")
-    df
-    return
+    # df
+    return (df,)
 
 
 @app.cell
-def _():
+def _(abilities_checkbox, df, economics_checkbox):
+    base_columns = ["Name", "Nationality", "Age", "Club", "Total Stats"]
+    economics_columns = ["Value", "Wage"]
+    abilities_columns = [
+        "Sprint Speed",
+        "Shot Power",
+        "Interceptions",
+        "Finishing",
+        "Defending",
+        "Hits",
+    ]
+    selected_columns = base_columns
+    if economics_checkbox.value:
+        selected_columns.extend(economics_columns)
+    if abilities_checkbox.value:
+        selected_columns.extend(abilities_columns)
+    df[selected_columns]
     return
 
 
