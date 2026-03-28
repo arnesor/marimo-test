@@ -6,10 +6,9 @@ app = marimo.App(width="medium")
 
 @app.cell
 def _():
+
     import marimo as mo
     import pandas as pd
-    import altair as alt
-    from pathlib import Path
 
     return mo, pd
 
@@ -55,7 +54,8 @@ def _(pd):
 @app.cell
 def _(filter_fifa_data, mo, pd):
     def read_fifa_data_from_file() -> pd.DataFrame:
-        # The data files must be stored in a subdirectory called `public` to be available when published to html
+        # The data files must be stored in a subdirectory called `public` to be
+        # available when published to html
         file = mo.notebook_location() / "public" / "cleaned_fifa21.csv"
         df = pd.read_csv(file)
         return filter_fifa_data(df)
