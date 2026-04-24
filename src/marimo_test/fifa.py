@@ -56,7 +56,7 @@ def _(filter_fifa_data, mo, pd):
         # The data files must be stored in a subdirectory called `public` to be
         # available when published to html
         file = mo.notebook_location() / "public" / "cleaned_fifa21.csv"
-        df = pd.read_csv(file)
+        df = pd.read_csv(file, compression=None)
         return filter_fifa_data(df)
 
     return (read_fifa_data_from_file,)
