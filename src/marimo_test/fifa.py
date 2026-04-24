@@ -53,10 +53,16 @@ def _(pd):
 @app.cell
 def _(filter_fifa_data, mo, pd):
     def read_fifa_data_from_file() -> pd.DataFrame:
-        # The data files must be stored in a subdirectory called `public` to be
-        # available when published to html
-        file = mo.notebook_location() / "public" / "cleaned_fifa21.csv"
-        df = pd.read_csv(file, compression=None)
+        filename = "cleaned_fifa21.csv"
+        try:
+            from pyodide.http import open_url
+        except ImportError:
+            # The data files must be stored in a subdirectory called `public` to be
+            # available when published to html.
+            file = mo.notebook_location() / "public" / filename
+            df = pd.read_csv(file)
+        else:
+            df = pd.read_csv(open_url(f"../public/{filename}"))
         return filter_fifa_data(df)
 
     return (read_fifa_data_from_file,)
