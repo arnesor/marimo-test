@@ -1,12 +1,11 @@
 import marimo
 
-__generated_with = "0.20.4"
+__generated_with = "0.23.2"
 app = marimo.App(width="medium")
 
 
 @app.cell
 def _():
-
     import marimo as mo
     import pandas as pd
 
@@ -73,7 +72,7 @@ def _(filter_fifa_data, mo, pd):
         df = pd.read_csv(url)
         return filter_fifa_data(df)
 
-    return (read_fifa_data_from_web,)
+    return
 
 
 @app.cell
@@ -85,13 +84,12 @@ def _(mo):
 
 
 @app.cell
-def _(read_fifa_data_from_file, read_fifa_data_from_web):
+def _(read_fifa_data_from_file):
     print("Reading FIFA data...")
-    df = read_fifa_data_from_web()
+    # df = read_fifa_data_from_web()
     df = read_fifa_data_from_file()
 
     print("Fifa data loaded successfully.")
-    # df
     return (df,)
 
 
@@ -113,6 +111,26 @@ def _(abilities_checkbox, df, economics_checkbox):
     if abilities_checkbox.value:
         selected_columns.extend(abilities_columns)
     df[selected_columns]
+    return
+
+
+@app.cell
+def _():
+    return
+
+
+@app.cell
+def _():
+    return
+
+
+@app.cell
+def _():
+    return
+
+
+@app.cell
+def _():
     return
 
 
